@@ -1,0 +1,59 @@
+game_field = list(range(1, 10))
+
+
+def draw_field(game_field):
+    smth = range(3)
+
+    for i in smth:
+        print(" ", game_field[0 + i*3], " ", game_field[1 + i*3], " ", game_field[2 + i*3], " ")
+
+
+def input_func(player):
+    valid = False
+    while not valid:
+        player_answer = input("введите номер клетки для " + player + ": ")
+        try:
+            player_answer = int(player_answer)
+        except:
+            print("это не число от 1 до 9")
+            continue
+        if 1 <= player_answer <= 9:
+            if str(game_field[player_answer - 1]) not in "x0":
+                game_field[player_answer - 1] = player
+                valid = True
+            else:
+                print("в этой клетке уже занято :(")
+        else:
+            print("введите число от 1 до 9")
+
+
+def check(game_field):
+    win_coord = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
+    for each in win_coord:
+        if game_field[each[0]] == game_field[each[1]] == game_field[each[2]]:
+            return game_field[each[0]]
+    return False
+
+def main(game_field):
+    counter = 0
+    win = False
+    while not win:
+        draw_field(game_field)
+        if counter % 2 == 0:
+            input_func("x")
+        else:
+            input_func("0")
+        counter += 1
+        if counter > 4:
+            tmp = check(game_field)
+            if tmp:
+                print(tmp, "выиграл!")
+                win = True
+                break
+        if counter == 9:
+            print("ничья")
+            break
+
+
+main(game_field)
+
